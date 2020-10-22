@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,12 +34,14 @@ public class MovieCatalogController {
     private String serviceName;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('CAN_READ')")
     public String test(){
        return serviceName;
     }
 
     @GetMapping(value="{UserId}")
     @HystrixCommand(fallbackMethod = "getCatalogFallback")
+    @PreAuthorize("hasAuthority('CAN_READ')")
     public List<CatalogItem> getCatalog(@PathVariable String UserId){
         UserRatingItem userRatingItem= restTemplate.getForObject("http://RatingDataService/ratings/"+UserId, UserRatingItem.class);
 

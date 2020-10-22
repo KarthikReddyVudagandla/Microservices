@@ -25,6 +25,9 @@ public class RatingsDataController {
         List<RatingItem> rl = new ArrayList<>();
         rl.add(new RatingItem("MovieId1",5));
         rl.add(new RatingItem("MovieId2",10));
+        rl.add(new RatingItem("MovieId3",8));
+        rl.add(new RatingItem("MovieId4",7));
+
 
         UserRatingItem uri = new UserRatingItem(UserId,rl);
 
